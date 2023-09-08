@@ -1,42 +1,61 @@
 package com.selva.todolist
 
 import android.os.Bundle
+import android.text.Editable
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.ViewModelProvider
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import com.selva.todolist.databinding.ActivityMainBinding
+import com.selva.todolist.databinding.FragmentNewTaskSheetBinding
+import com.selva.todolist.models.TodoItem
+import com.selva.todolist.models.TodoViewModel
 
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-class NewTaskSheet : Fragment() {
-    private var param1: String? = null
-    private var param2: String? = null
+class NewTaskSheet(var todoItem: TodoItem) : BottomSheetDialogFragment() {
+    private lateinit var binding: FragmentNewTaskSheetBinding
+    private lateinit var todoViewModel: TodoViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
+        val activity = requireActivity()
+
+        if (todoItem != null){
+            binding.taskTitle.text = "EditTask"
+            val editable = Editable.Factory.getInstance()
+            binding.name.text = editable.newEditable(todoItem!!.text)
         }
+        else{
+            binding.taskTitle.text = "NewTask"
+        }
+
+        todoViewModel = ViewModelProvider(activity).get(todoViewModel::class.java)
+        binding.saveButton.setOnClickListener{
+            saveAction()
+        }
+
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_new_task_sheet, container, false)
+        binding = FragmentNewTaskSheetBinding.inflate(inflater,container,false)
+        return binding.root
     }
 
-    companion object {
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            NewTaskSheet().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
+    private fun saveAction(){
+        val name = binding.name.text.toString()
+
+        if (todoItem == null){
+            val newTodo = TodoItem("null", name, "null", null, false, null, null)
+            todoViewModel.addToDoItem(newTodo)
+        }
+        else{
+            todoViewModel.updateToDoItem(todoItem!!.id, name, null)
+        }
+        binding.name.setText("")
+        dismiss()
     }
 }
