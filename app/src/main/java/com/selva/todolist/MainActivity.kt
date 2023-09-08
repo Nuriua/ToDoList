@@ -27,6 +27,7 @@ class MainActivity : AppCompatActivity() {
         todoViewModel.todoItems.observe(this){
             binding.todoListResyclerView.apply{
                 layoutManager = LinearLayoutManager(applicationContext)
+                adapter = TodoItemAdapter(it)
             }
         }
     }
