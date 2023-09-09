@@ -16,6 +16,7 @@ import com.selva.todolist.models.TodoViewModel
 class NewTaskSheet(var todoItem: TodoItem) : BottomSheetDialogFragment() {
     private lateinit var binding: FragmentNewTaskSheetBinding
     private lateinit var todoViewModel: TodoViewModel
+//    private val deadline:
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

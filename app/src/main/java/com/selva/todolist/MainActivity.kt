@@ -5,9 +5,10 @@ import android.os.Bundle
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.selva.todolist.databinding.ActivityMainBinding
+import com.selva.todolist.models.TodoItem
 import com.selva.todolist.models.TodoViewModel
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), TodoItemListener {
     private lateinit var binding: ActivityMainBinding
     private lateinit var todoViewModel: TodoViewModel
 
@@ -27,9 +28,17 @@ class MainActivity : AppCompatActivity() {
         todoViewModel.todoItems.observe(this){
             binding.todoListResyclerView.apply{
                 layoutManager = LinearLayoutManager(applicationContext)
-                adapter = TodoItemAdapter(it)
+                adapter = TodoItemAdapter(it, mainActivity)
             }
         }
+    }
+
+    override fun editTodoItem(todoItem: TodoItem) {
+        NewTaskSheet(todoItem).show(supportFragmentManager,"newTaskTag")
+    }
+
+    override fun completedTodoItem(todoItem: TodoItem) {
+        todoViewModel.setCompleted(todoItem)
     }
 
 }
