@@ -13,13 +13,13 @@ import com.selva.todolist.databinding.FragmentNewTaskSheetBinding
 import com.selva.todolist.models.TodoItem
 import com.selva.todolist.models.TodoViewModel
 
-class NewTaskSheet(var todoItem: TodoItem) : BottomSheetDialogFragment() {
+class NewTaskSheet(var todoItem: TodoItem?) : BottomSheetDialogFragment() {
     private lateinit var binding: FragmentNewTaskSheetBinding
     private lateinit var todoViewModel: TodoViewModel
 //    private val deadline:
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         val activity = requireActivity()
 
         if (todoItem != null){
@@ -31,17 +31,14 @@ class NewTaskSheet(var todoItem: TodoItem) : BottomSheetDialogFragment() {
             binding.taskTitle.text = "NewTask"
         }
 
-        todoViewModel = ViewModelProvider(activity).get(todoViewModel::class.java)
+        todoViewModel = ViewModelProvider(activity).get(TodoViewModel::class.java)
         binding.saveButton.setOnClickListener{
             saveAction()
         }
 
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = FragmentNewTaskSheetBinding.inflate(inflater,container,false)
         return binding.root
     }
@@ -50,7 +47,7 @@ class NewTaskSheet(var todoItem: TodoItem) : BottomSheetDialogFragment() {
         val name = binding.name.text.toString()
 
         if (todoItem == null){
-            val newTodo = TodoItem("null", name, "null", null, false, null, null)
+            val newTodo = TodoItem("null", name, false)
             todoViewModel.addToDoItem(newTodo)
         }
         else{

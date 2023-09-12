@@ -21,7 +21,6 @@ class TodoViewModel: ViewModel() {
         val list = todoItems.value
         val todo = list!!.find{it.id == id}!!
         todo.text = text
-        todo.deadline = deadline
         todoItems.postValue(list)
     }
 

@@ -20,7 +20,7 @@ class TodoItemViewHolder(
 
         }
 
-        binding.completeButton.setImageResource(todoItem.imageResourse())
+        binding.completeButton.setImageResource(todoItem.imageResource())
         binding.completeButton.setColorFilter(todoItem.imageColor(context))
 
         binding.completeButton.setOnClickListener{
