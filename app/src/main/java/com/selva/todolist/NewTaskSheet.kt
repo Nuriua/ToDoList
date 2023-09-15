@@ -6,6 +6,9 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
+import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.selva.todolist.databinding.ActivityMainBinding
@@ -45,13 +48,28 @@ class NewTaskSheet(var todoItem: TodoItem?) : BottomSheetDialogFragment() {
 
     private fun saveAction(){
         val name = binding.name.text.toString()
+        var spinner = binding.prioritySpinner
+        val spinnerItems = resources.getStringArray(R.array.priority_array)
+        val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, spinnerItems)
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        spinner.adapter = adapter
+        var selectedItem = "medium"
+        spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                // Обработка выбора элемента
+                selectedItem = spinnerItems[position]
+            }
 
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+                // Вызывается, когда ничего не выбрано
+            }
+        }
         if (todoItem == null){
-            val newTodo = TodoItem("null", name, false)
+            val newTodo = TodoItem("null", name, false, selectedItem)
             todoViewModel.addToDoItem(newTodo)
         }
         else{
-            todoViewModel.updateToDoItem(todoItem!!.id, name, null)
+            todoViewModel.updateToDoItem(todoItem!!.id, name, todoItem!!.flag, todoItem!!.importance)
         }
         binding.name.setText("")
         dismiss()

@@ -40,5 +40,4 @@ class MainActivity : AppCompatActivity(), TodoItemListener {
     override fun completedTodoItem(todoItem: TodoItem) {
         todoViewModel.setCompleted(todoItem)
     }
-
 }
