@@ -9,7 +9,8 @@ class TodoItem(
     var id: String,
     var text: String,
     var flag: Boolean,
-    var importance: String) {
+    var importance: String
+    ) {
 
     fun isCompleted() = flag != false
     fun imageResource(): Int = if(isCompleted()) R.drawable.checked_24 else R.drawable.unchecked_24

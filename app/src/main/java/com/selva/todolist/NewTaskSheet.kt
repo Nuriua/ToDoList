@@ -50,20 +50,17 @@ class NewTaskSheet(var todoItem: TodoItem?) : BottomSheetDialogFragment() {
         val name = binding.name.text.toString()
         var spinner = binding.prioritySpinner
         val spinnerItems = resources.getStringArray(R.array.priority_array)
-//        val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, spinnerItems)
-//        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-//        spinner.adapter = adapter
         var selectedItem = "medium"
-        spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                // Обработка выбора элемента
-                selectedItem = spinnerItems[position]
-            }
-
-            override fun onNothingSelected(parent: AdapterView<*>?) {
-                // Вызывается, когда ничего не выбрано
-            }
-        }
+//        spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+//            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+//                // Обработка выбора элемента
+//                selectedItem = spinnerItems[position]
+//            }
+//
+//            override fun onNothingSelected(parent: AdapterView<*>?) {
+//                // Вызывается, когда ничего не выбрано
+//            }
+//        }
         if (todoItem == null){
             val newTodo = TodoItem("null", name, false, selectedItem)
             todoViewModel.addToDoItem(newTodo)

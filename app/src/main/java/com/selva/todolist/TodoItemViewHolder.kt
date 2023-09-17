@@ -17,7 +17,6 @@ class TodoItemViewHolder(
         if (todoItem.isCompleted()){
             binding.name.paintFlags = Paint.STRIKE_THRU_TEXT_FLAG
 //            binding.deadline.paintFlags = Paint.STRIKE_THRU_TEXT_FLAG
-
         }
 
         binding.completeButton.setImageResource(todoItem.imageResource())
