@@ -48,25 +48,16 @@ class NewTaskSheet(var todoItem: TodoItem?) : BottomSheetDialogFragment() {
 
     private fun saveAction(){
         val name = binding.name.text.toString()
-        var spinner = binding.prioritySpinner
-        val spinnerItems = resources.getStringArray(R.array.priority_array)
-        var selectedItem = "medium"
-//        spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-//            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-//                // Обработка выбора элемента
-//                selectedItem = spinnerItems[position]
-//            }
-//
-//            override fun onNothingSelected(parent: AdapterView<*>?) {
-//                // Вызывается, когда ничего не выбрано
-//            }
-//        }
+//        var spinner = binding.prioritySpinner
+//        val spinnerItems = resources.getStringArray(R.array.priority_array)
+//        var selectedItem = "medium"
+
         if (todoItem == null){
-            val newTodo = TodoItem("null", name, false, selectedItem)
+            val newTodo = TodoItem("null", name, false)
             todoViewModel.addToDoItem(newTodo)
         }
         else{
-            todoViewModel.updateToDoItem(todoItem!!.id, name, todoItem!!.flag, todoItem!!.importance)
+            todoViewModel.updateToDoItem(todoItem!!.id, name, todoItem!!.flag)
         }
         binding.name.setText("")
         dismiss()

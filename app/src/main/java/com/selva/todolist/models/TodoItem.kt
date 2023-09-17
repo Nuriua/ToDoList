@@ -9,7 +9,7 @@ class TodoItem(
     var id: String,
     var text: String,
     var flag: Boolean,
-    var importance: String
+//    var importance: String
     ) {
 
     fun isCompleted() = flag != false

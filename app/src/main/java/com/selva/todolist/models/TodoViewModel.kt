@@ -17,12 +17,12 @@ class TodoViewModel: ViewModel() {
         todoItems.postValue(list)
     }
 
-    fun updateToDoItem(id:String, text:String, flag:Boolean, importance:String){
+    fun updateToDoItem(id:String, text:String, flag:Boolean){
         val list = todoItems.value
         val todo = list!!.find{it.id == id}!!
         todo.text = text
         todo.flag = flag
-        todo.importance = importance
+//        todo.importance = importance
         todoItems.postValue(list)
     }
 
