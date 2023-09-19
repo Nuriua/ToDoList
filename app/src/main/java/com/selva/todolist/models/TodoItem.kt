@@ -2,14 +2,16 @@ package com.selva.todolist.models
 
 import android.content.Context
 import androidx.core.content.ContextCompat
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import com.selva.todolist.R
 import java.time.LocalDate
-
+@Entity(tableName = "task_item_table")
 class TodoItem(
-    var id: String,
-    var text: String,
-    var flag: Boolean,
-//    var importance: String
+    @PrimaryKey(autoGenerate = true) var id: Int = 0,
+    @ColumnInfo(name = "text") var text: String,
+    @ColumnInfo(name = "flag") var flag: Boolean,
     ) {
 
     fun isCompleted() = flag != false

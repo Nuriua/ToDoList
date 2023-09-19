@@ -17,19 +17,15 @@ class TodoViewModel: ViewModel() {
         todoItems.postValue(list)
     }
 
-    fun updateToDoItem(id:String, text:String, flag:Boolean){
-        val list = todoItems.value
-        val todo = list!!.find{it.id == id}!!
-        todo.text = text
-        todo.flag = flag
-//        todo.importance = importance
-        todoItems.postValue(list)
-    }
+//    fun updateToDoItem(id:String, text:String, flag:Boolean){
+//        val list = todoItems.value
+//        todoItems.postValue(list)
+//    }
+//
+//    fun setCompleted(todoItem: TodoItem){
+//        val list = todoItems.value
+//        todoItems.postValue(list)
+//    }
 
-    fun setCompleted(todoItem: TodoItem){
-        val list = todoItems.value
-        val todo = list!!.find{it.id == todoItem.id}!!
-        todo.flag = true
-        todoItems.postValue(list)
-    }
+
 }
