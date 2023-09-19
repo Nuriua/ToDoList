@@ -1,11 +1,13 @@
 package com.selva.todolist.models
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.selva.todolist.TodoItemRepository
 import java.time.LocalDate
 
-class TodoViewModel: ViewModel() {
-    var todoItems = MutableLiveData<MutableList<TodoItem>>()
+class TodoViewModel(private val repository: TodoItemRepository): ViewModel() {
+    var todoItems: LiveData<List<TodoItem>> = repository.all
 
     init {
         todoItems.value = mutableListOf()
