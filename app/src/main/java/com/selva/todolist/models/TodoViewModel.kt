@@ -22,5 +22,9 @@ class TodoViewModel(private val repository: TodoItemRepository): ViewModel() {
 }
 
 class TodoItemModelFactory(private val repository: TodoItemRepository): ViewModelProvider.Factory{
-
+    override fun <T : ViewModel> create(modelClass: Class<T>): T {
+        if(modelClass.isAssignableFrom(TodoViewModel::class.java))
+            return TodoViewModel(repository) as T
+        throw IllegalArgumentException("Unknown class for View Model")
+    }
 }
