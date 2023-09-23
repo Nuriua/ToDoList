@@ -29,6 +29,11 @@ class NewTaskSheet(var todoItem: TodoItem?) : BottomSheetDialogFragment() {
             binding.taskTitle.text = "EditTask"
             val editable = Editable.Factory.getInstance()
             binding.name.text = editable.newEditable(todoItem!!.text)
+            binding.name.desc = editable.newEditable(todoItem!!.desc)
+            if (todoItem!!.dueTime() != null){
+                dueTime = taskItem!!.dueTime()!!
+                updateTimeButtonText()
+            }
         }
         else{
             binding.taskTitle.text = "NewTask"
@@ -48,18 +53,20 @@ class NewTaskSheet(var todoItem: TodoItem?) : BottomSheetDialogFragment() {
 
     private fun saveAction(){
         val name = binding.name.text.toString()
-//        var spinner = binding.prioritySpinner
-//        val spinnerItems = resources.getStringArray(R.array.priority_array)
-//        var selectedItem = "medium"
-
+        val desk = binding.desk.text.toString()
+        val dueTimeString = if (dueTime == null) null else TodoItem.timeFormatter.format(dueTime)
         if (todoItem == null){
-            val newTodo = TodoItem("null", name, false)
+            val newTodo = TodoItem(name, desk, dueTimeString, null)
             todoViewModel.addToDoItem(newTodo)
         }
         else{
-            todoViewModel.updateToDoItem(todoItem!!.id, name, todoItem!!.flag)
+            todoViewModel!!.text = name
+            todoItem!!.desk = desk
+            todoItem!!.dueTimeString = dueTimeString
+            todoViewModel.updateToDoItem(todoItem!!)
         }
         binding.name.setText("")
+        binding.desk.setText("")
         dismiss()
     }
 }

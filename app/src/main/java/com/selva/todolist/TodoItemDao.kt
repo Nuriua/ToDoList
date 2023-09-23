@@ -10,7 +10,7 @@ import java.util.concurrent.Flow
 @Dao
 interface TodoItemDao {
     @Query("SELECT * FROM task_item_table ORDER BY id ASK")
-    fun allTodoItems(): Flow<TodoItem>
+    fun allTodoItems(): Flow<List<TodoItem>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertTodoItem(todoItem: TodoItem)
