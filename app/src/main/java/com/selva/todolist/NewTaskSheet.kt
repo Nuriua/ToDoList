@@ -1,5 +1,6 @@
 package com.selva.todolist
 
+import android.app.TimePickerDialog
 import android.os.Bundle
 import android.text.Editable
 import androidx.fragment.app.Fragment
@@ -15,11 +16,12 @@ import com.selva.todolist.databinding.ActivityMainBinding
 import com.selva.todolist.databinding.FragmentNewTaskSheetBinding
 import com.selva.todolist.models.TodoItem
 import com.selva.todolist.models.TodoViewModel
+import java.time.LocalTime
 
 class NewTaskSheet(var todoItem: TodoItem?) : BottomSheetDialogFragment() {
     private lateinit var binding: FragmentNewTaskSheetBinding
     private lateinit var todoViewModel: TodoViewModel
-//    private val deadline:
+    private val dueTime: LocalTime? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -29,9 +31,9 @@ class NewTaskSheet(var todoItem: TodoItem?) : BottomSheetDialogFragment() {
             binding.taskTitle.text = "EditTask"
             val editable = Editable.Factory.getInstance()
             binding.name.text = editable.newEditable(todoItem!!.text)
-            binding.name.desc = editable.newEditable(todoItem!!.desc)
+            binding.desc.text = editable.newEditable(todoItem!!.desc)
             if (todoItem!!.dueTime() != null){
-                dueTime = taskItem!!.dueTime()!!
+                dueTime = todoItem!!.dueTime()!!
                 updateTimeButtonText()
             }
         }
@@ -43,7 +45,23 @@ class NewTaskSheet(var todoItem: TodoItem?) : BottomSheetDialogFragment() {
         binding.saveButton.setOnClickListener{
             saveAction()
         }
+        binding.timePickerButton.setOnClickListener{
+            openTimePicker()
+        }
+    }
 
+    private fun openTimePicker() {
+        if(dueTime==null)
+            dueTime = LocalTime.now()
+        val listener = TimePickerDialog.OnTimeSetListener{selectedHour, selectedMinute->
+            dueTime = LocalTime.of(selecteHour, selectedMinute)
+            updateTimeButtonText()
+        }
+        val dialog = TimePickerDialog(activity, listener, dueTime!!.hour, dueTime!!.minute, true)
+    }
+
+    private fun updateTimeButtonText() {
+        binding.timePickerButton.text = String.format("%02d:%02d", dueTime!!.hour, dueTime!!.minute)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -53,20 +71,20 @@ class NewTaskSheet(var todoItem: TodoItem?) : BottomSheetDialogFragment() {
 
     private fun saveAction(){
         val name = binding.name.text.toString()
-        val desk = binding.desk.text.toString()
+        val desk = binding.desc.text.toString()
         val dueTimeString = if (dueTime == null) null else TodoItem.timeFormatter.format(dueTime)
         if (todoItem == null){
             val newTodo = TodoItem(name, desk, dueTimeString, null)
             todoViewModel.addToDoItem(newTodo)
         }
         else{
-            todoViewModel!!.text = name
-            todoItem!!.desk = desk
+            todoViewModel!!.name = name
+            todoItem!!.desc = desk
             todoItem!!.dueTimeString = dueTimeString
             todoViewModel.updateToDoItem(todoItem!!)
         }
         binding.name.setText("")
-        binding.desk.setText("")
+        binding.desc.setText("")
         dismiss()
     }
 }
