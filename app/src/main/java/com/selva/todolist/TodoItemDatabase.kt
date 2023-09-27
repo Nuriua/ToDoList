@@ -6,7 +6,7 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.selva.todolist.models.TodoItem
 
-@Database(entities = [TodoItem:class], version = 1, exportSchema = falce)
+@Database(entities = [TodoItem::class], version = 1, exportSchema = false)
 abstract class TodoItemDatabase: RoomDatabase() {
     abstract fun todoItemDao(): TodoItemDao
 

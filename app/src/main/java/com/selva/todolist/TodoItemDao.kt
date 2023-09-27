@@ -1,11 +1,8 @@
 package com.selva.todolist
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import androidx.room.*
 import com.selva.todolist.models.TodoItem
-import java.util.concurrent.Flow
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface TodoItemDao {
@@ -14,6 +11,10 @@ interface TodoItemDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertTodoItem(todoItem: TodoItem)
+
+    @Update
     suspend fun updateTodoItem(todoItem: TodoItem)
+
+    @Delete
     suspend fun deleteTodoItem(todoItem: TodoItem)
 }

@@ -21,7 +21,7 @@ import java.time.LocalTime
 class NewTaskSheet(var todoItem: TodoItem?) : BottomSheetDialogFragment() {
     private lateinit var binding: FragmentNewTaskSheetBinding
     private lateinit var todoViewModel: TodoViewModel
-    private val dueTime: LocalTime? = null
+    private var dueTime: LocalTime? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -51,13 +51,15 @@ class NewTaskSheet(var todoItem: TodoItem?) : BottomSheetDialogFragment() {
     }
 
     private fun openTimePicker() {
-        if(dueTime==null)
+        if(dueTime ==null)
             dueTime = LocalTime.now()
-        val listener = TimePickerDialog.OnTimeSetListener{selectedHour, selectedMinute->
-            dueTime = LocalTime.of(selecteHour, selectedMinute)
+        val listener = TimePickerDialog.OnTimeSetListener{_, selectedHour, selectedMinute->
+            dueTime = LocalTime.of(selectedHour, selectedMinute)
             updateTimeButtonText()
         }
         val dialog = TimePickerDialog(activity, listener, dueTime!!.hour, dueTime!!.minute, true)
+        dialog.setTitle("Task Due")
+        dialog.show()
     }
 
     private fun updateTimeButtonText() {
@@ -78,7 +80,7 @@ class NewTaskSheet(var todoItem: TodoItem?) : BottomSheetDialogFragment() {
             todoViewModel.addToDoItem(newTodo)
         }
         else{
-            todoViewModel!!.name = name
+            todoItem!!.text = name
             todoItem!!.desc = desk
             todoItem!!.dueTimeString = dueTimeString
             todoViewModel.updateToDoItem(todoItem!!)

@@ -23,8 +23,8 @@ class TodoItem(
     fun completedDate(): LocalDate? = if (completedDateString == null) null
         else LocalDate.parse(completedDateString, timeFormatter)
 
-    fun dueTime(): LocalDate? = if (completedDateString == null) null
-    else LocalDate.parse(completedDateString, timeFormatter)
+    fun dueTime(): LocalTime? = if (completedDateString == null) null
+    else LocalTime.parse(completedDateString, timeFormatter)
 
     fun isCompleted() = completedDate() != null
     fun imageResource(): Int = if(isCompleted()) R.drawable.checked_24 else R.drawable.unchecked_24

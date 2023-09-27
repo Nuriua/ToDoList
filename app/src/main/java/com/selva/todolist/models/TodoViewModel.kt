@@ -17,6 +17,8 @@ class TodoViewModel(private val repository: TodoItemRepository): ViewModel() {
     }
 
     fun setCompleted(todoItem: TodoItem) = viewModelScope.launch{
+        if (!todoItem.isCompleted())
+            todoItem.completedDateString = TodoItem.dateFormatter.format(LocalDate.now())
         repository.updateTodoItem(todoItem)
     }
 }
