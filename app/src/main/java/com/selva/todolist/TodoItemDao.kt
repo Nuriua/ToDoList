@@ -6,7 +6,7 @@ import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface TodoItemDao {
-    @Query("SELECT * FROM task_item_table ORDER BY id ASK")
+    @Query("SELECT * FROM todo_item_table ORDER BY id ASC")
     fun allTodoItems(): Flow<List<TodoItem>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)

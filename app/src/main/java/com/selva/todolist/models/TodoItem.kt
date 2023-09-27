@@ -11,7 +11,7 @@ import java.time.LocalDate
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 
-@Entity(tableName = "task_item_table")
+@Entity(tableName = "todo_item_table")
 class TodoItem(
     @ColumnInfo(name = "text") var text: String,
     @ColumnInfo(name = "desc") var desc: String,
